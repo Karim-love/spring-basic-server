@@ -1,4 +1,4 @@
-package com.karim.springbasicserver;
+package com.karim.spring.basic.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
