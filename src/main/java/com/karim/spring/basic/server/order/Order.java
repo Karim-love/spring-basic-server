@@ -3,7 +3,7 @@ package com.karim.spring.basic.server.order;
 /**
  * @author : sblim
  * @version : 1.0.0
- * @package : com.karim.springbasicserver.order
+ * @package : com.karim.spring.basic.server.order
  * @name : spring-basic-server
  * @date : 2023. 02. 02. 002 오후 6:10
  * @modifyed :

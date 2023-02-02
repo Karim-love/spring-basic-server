@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author : sblim
  * @version : 1.0.0
- * @package : com.karim.springbasicserver.member
+ * @package : com.karim.spring.basic.server.member
  * @name : spring-basic-server
  * @date : 2023. 02. 02. 002 오후 5:39
  * @modifyed :

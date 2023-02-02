@@ -8,7 +8,7 @@ import com.karim.spring.basic.server.member.Member;
 /**
  * @author : sblim
  * @version : 1.0.0
- * @package : com.karim.springbasicserver
+ * @package : com.karim.spring.basic.server
  * @name : spring-basic-server
  * @date : 2023. 02. 02. 002 오후 5:45
  * @modifyed :
