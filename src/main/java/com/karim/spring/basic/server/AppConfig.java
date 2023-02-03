@@ -9,6 +9,8 @@ import com.karim.spring.basic.server.member.MemberServiceImpl;
 import com.karim.spring.basic.server.member.MemoryMemberRepository;
 import com.karim.spring.basic.server.order.OrderService;
 import com.karim.spring.basic.server.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author : sblim
@@ -22,12 +24,15 @@ import com.karim.spring.basic.server.order.OrderServiceImpl;
  * ==> DIP 완성!!
  * ==> 관심사의 분리 : 객체를 생성하고 연결하는 역할과 실행하는 역할이 명확히 분리되었다.
  **/
+
+@Configuration
 public class AppConfig {
 
     /**
      * 회원 서비스 역할
      * @return
      */
+    @Bean
     public MemberService memberService(){
         return new MemberServiceImpl(memberRepository());
     }
@@ -36,7 +41,8 @@ public class AppConfig {
      * 회원 저장소 역할
      * @return
      */
-    private MemoryMemberRepository memberRepository() {
+    @Bean
+    public MemoryMemberRepository memberRepository() {
         return new MemoryMemberRepository(); // 메모리 구현
     }
 
@@ -44,6 +50,7 @@ public class AppConfig {
      * 주문 서비스 역할
      * @return
      */
+    @Bean
     public OrderService orderService(){
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
@@ -52,6 +59,7 @@ public class AppConfig {
      * 할인 정책 역할
      * @return
      */
+    @Bean
     public DiscountPolicy discountPolicy(){
 //        return new FixDiscountPolicy(); //고정 할인 구현
         return new RateDiscountPolicy(); //정률 할인 구현

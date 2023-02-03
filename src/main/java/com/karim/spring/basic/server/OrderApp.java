@@ -7,6 +7,8 @@ import com.karim.spring.basic.server.order.Order;
 import com.karim.spring.basic.server.order.OrderService;
 import com.karim.spring.basic.server.order.OrderServiceImpl;
 import com.karim.spring.basic.server.member.Member;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * @author : sblim
@@ -21,9 +23,14 @@ public class OrderApp {
 
     public static void main(String[] args) {
 
-        AppConfig appConfig = new AppConfig();
-        MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
 
         Long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
