@@ -1,5 +1,6 @@
 package com.karim.spring.basic.server.discount;
 
+import com.karim.spring.basic.server.member.Grade;
 import com.karim.spring.basic.server.member.Member;
 
 /**
@@ -11,9 +12,16 @@ import com.karim.spring.basic.server.member.Member;
  * @modifyed :
  * @description : 정률 할인 정책
  **/
-public class ReteDiscountPolicy implements DiscountPolicy{
+public class RateDiscountPolicy implements DiscountPolicy{
+
+    private int discountPercent = 10; // 10% 할인
+
     @Override
     public int discount(Member member, int price) {
-        return 0;
+        if (member.getGrade() == Grade.VIP) {
+            return price * discountPercent / 100;
+        } else {
+            return 0;
+        }
     }
 }
