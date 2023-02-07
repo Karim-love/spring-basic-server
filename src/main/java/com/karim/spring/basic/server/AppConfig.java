@@ -28,12 +28,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    // @Bean memberService --> new MemoryMemberRepository();
+    // @Bean oderService --> new MemoryMemberRepository();
+
     /**
      * 회원 서비스 역할
      * @return
      */
     @Bean
     public MemberService memberService(){
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
@@ -43,6 +47,7 @@ public class AppConfig {
      */
     @Bean
     public MemoryMemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository(); // 메모리 구현
     }
 
@@ -52,6 +57,7 @@ public class AppConfig {
      */
     @Bean
     public OrderService orderService(){
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
