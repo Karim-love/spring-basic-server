@@ -1,9 +1,6 @@
-package com.karim.spring.basic.server.Beanfind;
+package com.karim.spring.basic.server.beanfind;
 
-import com.karim.spring.basic.server.AppConfig;
 import com.karim.spring.basic.server.member.MemberRepository;
-import com.karim.spring.basic.server.member.MemberService;
-import com.karim.spring.basic.server.member.MemberServiceImpl;
 import com.karim.spring.basic.server.member.MemoryMemberRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.karim.spring.basic.server.Beanfind;
+package com.karim.spring.basic.server.beanfind;
 
 import com.karim.spring.basic.server.AppConfig;
 import org.junit.jupiter.api.DisplayName;
