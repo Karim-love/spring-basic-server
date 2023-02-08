@@ -5,6 +5,8 @@ import com.karim.spring.basic.server.discount.RateDiscountPolicy;
 import com.karim.spring.basic.server.member.Member;
 import com.karim.spring.basic.server.member.MemberRepository;
 import com.karim.spring.basic.server.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author : sblim
@@ -15,6 +17,8 @@ import com.karim.spring.basic.server.member.MemoryMemberRepository;
  * @modifyed :
  * @description :
  **/
+
+@Component
 public class OrderServiceImpl implements OrderService {
 
     /**
@@ -34,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;

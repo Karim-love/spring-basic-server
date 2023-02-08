@@ -1,5 +1,8 @@
 package com.karim.spring.basic.server.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /**
  * @author : sblim
  * @version : 1.0.0
@@ -9,11 +12,16 @@ package com.karim.spring.basic.server.member;
  * @modifyed :
  * @description : 회원 서비스
  **/
-public class MemberServiceImpl implements MemberService{
 
-//    private final MemberRepository memberRepository = new MemoryMemberRepository();
+//@Component("memberService2")
+@Component
+public class MemberServiceImpl implements MemberService {
+
+    //    private final MemberRepository memberRepository = new MemoryMemberRepository();
     private final MemberRepository memberRepository;
 
+    @Autowired // ac.getBean(MemberRepository.class)
+    // 1. MemberRepository와 같은 타입의 클래스를 찾는다. (자식 포함)
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
