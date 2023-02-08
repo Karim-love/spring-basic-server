@@ -2,6 +2,7 @@ package com.karim.spring.basic.server.discount;
 
 import com.karim.spring.basic.server.member.Grade;
 import com.karim.spring.basic.server.member.Member;
+import org.springframework.stereotype.Component;
 
 /**
  * @author : sblim
@@ -12,6 +13,8 @@ import com.karim.spring.basic.server.member.Member;
  * @modifyed :
  * @description : 정률 할인 정책
  **/
+
+@Component
 public class RateDiscountPolicy implements DiscountPolicy{
 
     private int discountPercent = 10; // 10% 할인
