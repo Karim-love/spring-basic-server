@@ -2,6 +2,8 @@ package com.karim.spring.basic.server.discount;
 
 import com.karim.spring.basic.server.member.Grade;
 import com.karim.spring.basic.server.member.Member;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * @author : sblim
@@ -12,6 +14,9 @@ import com.karim.spring.basic.server.member.Member;
  * @modifyed :
  * @description : 고정 할인 정책
  **/
+
+@Component
+//@Qualifier("fixDiscountPolicy")
 public class FixDiscountPolicy implements DiscountPolicy{
 
     private int discountFixAmount = 1000; // 1,000원 할인

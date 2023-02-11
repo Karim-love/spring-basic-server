@@ -1,7 +1,10 @@
 package com.karim.spring.basic.server.discount;
 
+import com.karim.spring.basic.server.annotation.MainDiscountPolicy;
 import com.karim.spring.basic.server.member.Grade;
 import com.karim.spring.basic.server.member.Member;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
+//@Qualifier("mainDiscountPolicy")
+@MainDiscountPolicy
+@Primary
 public class RateDiscountPolicy implements DiscountPolicy{
 
     private int discountPercent = 10; // 10% 할인
