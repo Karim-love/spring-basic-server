@@ -1,11 +1,14 @@
 package com.karim.spring.basic.server.order;
 
+import com.karim.spring.basic.server.annotation.MainDiscountPolicy;
 import com.karim.spring.basic.server.discount.DiscountPolicy;
 import com.karim.spring.basic.server.discount.RateDiscountPolicy;
 import com.karim.spring.basic.server.member.Member;
 import com.karim.spring.basic.server.member.MemberRepository;
 import com.karim.spring.basic.server.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     /**
@@ -38,8 +42,11 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    //@RequiredArgsConstructor 롬복 어노테이션으로 생성자 생략 가능
+    @Autowired // 생성자가 하나면 해당 애노테이션 생략 가능
+    //public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    //public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
