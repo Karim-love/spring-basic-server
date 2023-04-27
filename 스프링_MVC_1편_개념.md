@@ -24,3 +24,40 @@
     - 최소 쓰레드로 최대 성능 - 쓰레드 컨텍스트 스위칭 비용 효율화
     - 함수형 스타일로 개발 - 동시 처리 코드 효율화
     - 서블릿 기술 사용 X
+
+### 색션3. 서블릿
+
+※ HttpServletRequest 개요
+- 역할
+  - HTTP 요청 메시지를 파싱
+- 요청 메시지
+  - Start Line
+    - http 메소드
+    - url
+    - 쿼리 스트링
+    - 스키마, 프로토콜
+  - 헤더
+    - 헤더 조회
+  - 바디
+    - form 파라미터 형식 조회
+    - message body 데이터 직접 조회
+  - **임시 저장소 기능**
+    - 해당 HTTP 요청이 시작부터 끝날 때 까지 유지되는 임시 저장소 기능
+    - 저장 : `request.setAttribute(name, value)`
+    - 조회 : `request.setAttribute(name)`
+  - **세션 관리 기능**
+    - `request.getSession(create: true)`
+
+※ HTTP 요청 데이터 - 개요
+- **GET** - 쿼리 파라미터
+  - /url?username=lim?age=39
+  - 메시지 바디 없이, URL의 쿼리 파라미터에 데이터를 포함해서 전달
+  - ex) 검색, 필터, 페이징등에서 많이 사용하는 방식
+- **POST** - HTML Form
+  - content-type : application/x-www-form-urlencoded
+  - 메시지 바디에 쿼리 파라미터 형식으로 전달 : username=lim?age=39
+  - ex) 회원 가입, 상품 주문, HTML Form 사용
+- **HTTP message body**에 데이터를 직접 담아서 요청
+  - HTTP API에서 주로 사용, JSON, XML, TEXT
+  - 데이터 형식은 주로 JSON
+  - POST, PUT, PATCH
