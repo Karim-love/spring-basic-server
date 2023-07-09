@@ -50,12 +50,12 @@
 
 ※ HTTP 요청 데이터 - 개요
 - **GET** - 쿼리 파라미터
-  - /url?username=lim?age=39
+  - /url?username=lim?age=29
   - 메시지 바디 없이, URL의 쿼리 파라미터에 데이터를 포함해서 전달
   - ex) 검색, 필터, 페이징등에서 많이 사용하는 방식
 - **POST** - HTML Form
   - content-type : application/x-www-form-urlencoded
-  - 메시지 바디에 쿼리 파라미터 형식으로 전달 : username=lim?age=39
+  - 메시지 바디에 쿼리 파라미터 형식으로 전달 : username=lim?age=29
   - ex) 회원 가입, 상품 주문, HTML Form 사용
 - **HTTP message body**에 데이터를 직접 담아서 요청
   - HTTP API에서 주로 사용, JSON, XML, TEXT
