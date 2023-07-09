@@ -29,7 +29,7 @@ public class LogDemoController {
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) throws InterruptedException {
-        String requestURL = request.getRequestURI().toString();
+        String requestURL = request.getRequestURI();
 
         System.out.println("myLogger = " + myLogger.getClass() );
 //        MyLogger myLogger = myLoggerObjectProvider.getObject();
