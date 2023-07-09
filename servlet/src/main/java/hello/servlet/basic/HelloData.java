@@ -1,4 +1,4 @@
-package hello.servlet.servlet.basic;
+package hello.servlet.basic;
 
 import lombok.Data;
 
