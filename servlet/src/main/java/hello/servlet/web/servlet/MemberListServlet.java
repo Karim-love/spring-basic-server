@@ -10,20 +10,26 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
-@WebServlet(name = "memberSaveServlet", urlPatterns = "/servlet/member/save")
-public class MemberSaveServlet extends HttpServlet {
+/**
+ * @author : sblim
+ * @version : 1.0.0
+ * @package : hello.servlet.web.servlet
+ * @name : spring-basic-server
+ * @date : 2023. 07. 13. 013 오전 9:43
+ * @modifyed :
+ * @description :
+ **/
 
-    private final MemberRepository memberRepository = MemberRepository.getInstance();
+@WebServlet(name = "memberListServlet", urlPatterns = "/servlet/members")
+public class MemberListServlet extends HttpServlet {
+    MemberRepository memberRepository = MemberRepository.getInstance();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        int age = Integer.parseInt(req.getParameter("age"));
 
-        Member member = new Member(username, age);
-
-        memberRepository.save(member);
+        List<Member> memberRepositoryAll = memberRepository.findAll();
 
         resp.setContentType("text/html");
         resp.setCharacterEncoding("utf-8");
@@ -35,11 +41,11 @@ public class MemberSaveServlet extends HttpServlet {
         w.write("   <meta charset=\"UTF-8\">\n");
         w.write("</head>\n");
         w.write("<body>\n");
-        w.write("<ul>\n");
-        w.write("   <li>id="+member.getId()+"</li>\n");
-        w.write("   <li>username="+member.getUsername()+"</li>\n");
-        w.write("   <li>age="+member.getAge()+"</li>\n");
-        w.write("</ul>\n");
+        for ( Member member : memberRepositoryAll ){
+            w.write(member.getId()+"\n");
+            w.write(member.getUsername()+"\n");
+            w.write(member.getAge()+"\n");
+        }
         w.write("<a href = \"/index.html\"> Main Page </a> \n");
         w.write("</body>\n");
         w.write("</html>\n");
