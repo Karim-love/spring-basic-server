@@ -88,3 +88,11 @@
 ※ 스프링 웹 MVC와 프론트 컨트롤러
 - 핵심은 `FrontController`
 - `DispatcherServlet`이 FrontController 패턴으로 구현되어 있음.
+
+※ V3  서블릿 종속성 제거
+- 컨트롤러 입장에서는 HttpServletRequest, HttpServletResponse 가 꼭 필요하지 않다.
+  - 요청 파라 미터 정보는 자바의 Map으로 대신 넘기도록 하면 컨트롤러가 서블릿 기술을 몰라도 동작할 수 있다.
+  - request 객체를 Model로 사용하는 대신에 별도의 Model 객체를 만들어서 반환하면 된다.
+- 뷰 이름 중복 제거
+  - V2 컨트롤러에 지정하는 뷰 이름에 중복이 있는 것을 확인
+  - 프론트 컨트롤러에서 처리하도록 단순화
