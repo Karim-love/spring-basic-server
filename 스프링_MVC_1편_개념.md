@@ -180,3 +180,18 @@
 1 = BeanNameViewResolver         : 빈 이름으로 뷰를 찾아서 반환한다.
 2 = InternalResourceViewResolver : JSP를 처리할 수 있는 뷰를 반환한다.
 ```
+
+**RequestMapping**
+- `RequestMappingHandlerMapping`
+  - 스프링 빈 중에서 `@RequestMapping` 또는 `@Controller`가 클래스 레벨에 붙어 있는 경우 매핑 정보로 인식한다.
+- `RequestMappingHandlerAdapter`
+
+**Model**
+- `save()`, `members()`를 보면 Model을 파라미터로 받는것을 확인할 수 있다.
+
+**ViewName 직접 반환**
+- 뷰의 논리 이름을 반환할 수 있다.
+
+**@RequestParam 사용**
+- 스프링은 HTTP 요청 파라미터를 `@RequestParam`으로 받을 수 있다.
+- `@RequestParam("username")`은 `reqeust.getParameter("username")`와 거의 같은 코드라 생각하면 된다.
