@@ -209,3 +209,53 @@
 - 로그 레벨에 따라 개발 서버에서는 모든 로그를 출력하고, 운영서버에서는 출력하지 않는 등 로그를 상황에 맞게 조절할 수 있다.
 - 시스템 아웃 콘솔에만 출력하는 것이 아니라, 파일이나 네트워크 등, 로그를 별도의 위치에 남길 수 있다. 특히 파일로 남길 때는 일별, 특정 용량에 따라 로그를 분할하는 것도 가능하다.
 - 성능도 일반 sout 보다 좋다.
+
+※ HTTP 요청 데이터 조회
+**GET - 쿼리 파라미터**
+- /url **?username=hello&age=20**
+- 메세지 바디 없이, URL의 쿼리 파라미터에 데이터를 포함해서 전달
+- ex ) 검색, 필터, 페이징등에서 많이 사용하는 방식
+- `HttpServletRequest`의 `request.getParameter()`를 사용
+
+**POST - HTML Form**
+- content-type:application/x-www-form-urlencoded
+- 메세지 바디에 쿼리 파라미터 형식으로 전달 username=hello&age=20
+- ex ) 회원 가입, 상품 주문, HTML Form 사용
+- `HttpServletRequest`의 `request.getParameter()`를 사용
+  
+**HTTP message body**에 데이터를 직접 담아서 요청
+- HTTP API에서 주로 사용, JSON, XML, TEXT
+- 데이터 형식은 주로 JSON 사용
+- POST, PUT, PATCH
+
+※ 바인딩 오류
+- `age=abc` 처럼 숫자가 들어가야할 곳에 문자를 넣으면 `BindException`이 발생한다.
+-  이런 오류는 검증 부분에서 세세히 다뤄야 한다.
+
+※ 생략 가능
+- `@ModelAttribute` 및 `@RequestParam` 생략 가능
+- 스프링은 해당 생략시 다음과 같은 규칙을 적용한다.
+  - `String`, `int`, `Integer` 같은 단순 타입 = `@RequestParam`
+  - 나머지 = `@ModelAttribute` ( argument resolver 로 지정해둔 타입 외 )
+
+※ HTTP message body 에 데이터를 직접 담아서 요청
+- HTTP API 에서 주로 사용, JSON, XML, TEXT
+- 데이터 형식은 주로 JSON
+- POST, PUT, PATCH
+- 요청 파라미터와 다르게, HTTP 메시지 바디를 통해 데이터가 직접 데이터가 넘어오는 경우는 `@RequestParam`, `@ModelAttribute`를 사용할 수 없다.
+- HTTP 메세지 바디의 데이터를 `InputStream`을 사용해서 직접 읽을 수 있다.
+
+※ 스프링 MVC는 다음 파라미터를 지원한다.
+- **HttpEntity** : Http header, body 정보를 편리하게 조회
+  - 메세지 바디 정보를 직접 조회
+  - 요청 파라미터를 조회하는 기능과 관계 없음 `@RequestParam`, `@ModelAttribute` => X
+- **HttpEntity** 응답에도 사용 가능
+  - 메세지 바디 정보 직접 반환
+  - 헤더 정보 포함 가능
+  - view 조회 X
+- **HttpEntity** 를 상속받은 다음 객체들도 같은 기능을 제공한다.
+  - **RequestEntity**
+    - HttpMethod, url 정보가 추가, 요청에서 사용
+  - **ResponseEntity**
+    - HTTP 상태 코드 설정 가능, 응답에서 사용
+    - `return new ResponseEntity<String>("Hello World", responseHeaders, HttpStatus.CREATED)`
