@@ -4,19 +4,41 @@
     <meta charset="UTF-8">
     <title>단축 url 생성</title>
     <link href="style.css" rel="stylesheet">
+    <link href="bootstrap.css" rel="stylesheet">
 </head>
 <body>
-    <div class="nav-bar">
-        <a href="/ui/create-shortenurl.html">단축 URL 생성</a><br>
-        <a href="/ui/get-shortenurl-info.html">단축 URL 단건 정보 조회</a><br>
-        <a href="/ui/get-shortenurl-info-list.html">단축 URL 전체 조회</a><br>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/ui/create-shortenurl.html">단축 URL 서비스</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/ui/create-shortenurl.html">단축 URL 생성</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/ui/get-shortenurl-info.html">단축 URL 단건 정보 조회</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/ui/get-shortenurl-info-list.html">단축 URL 전체 조회</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="width: 400px">
+        <form onsubmit="return createShortenurl();">
+            <label for="url-input" class="form-label">단축할 URL을 입력하세요.</label>
+            <input type="url" class="form-control" id="url-input" placeholder="https://www.google.com">
+            <button type="submit" class="btn btn-primary">단축 URl 생성</button>
+        </form>
+        <input id="created-shortenurl" class="form-control" type="text" value="여기에 단축된 URL이 생성됩니다." aria-label="Disabled input example" disabled readonly>
+        <script src="bootstrap.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     </div>
-    <form onsubmit="return createShortenurl();">
-        <input type="url" id="url-input">
-        <input type="submit">
-    </form>
-    <span id = "created-shortenurl"></span>
-        <script>
+    <script>
             function createShortenurl() {
                 const url = document.querySelector('#url-input').value;
                 const requestObject = { originalUrl: url };
@@ -36,8 +58,7 @@
                             // 2. #create-shrotenurl 부분에 url 형태로 생성해야 한다.
                             const createdShortenurlDom = document.querySelector('#created-shortenurl');
                             const shortenurl = window.location.protocol+"//" +window.location.host + "/" + data.shortenUrlKey;
-                            createdShortenurlDom.innerText = shortenurl;
-
+                            createdShortenurlDom.value = shortenurl;
                         });
                         alert("단축 URL이 생성되었습니다.");
                     } else {
