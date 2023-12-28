@@ -280,3 +280,15 @@
     - 객체 -> Http 메시지 컨버터 -> Json 응답
     - HttpMessageConvert 사용 -> MappingJackson2HttpMessageConverter
       - Accept : application/json
+
+※ HTTP 응답 - 정적 리소스, 뷰 템플릿
+- **정적 리소스**
+  - 정적인 http, css, js을 제공할 때 사용
+- **뷰 템플릿**
+  - 웹 브라우저에 동적인 html을 제공할 때 사용
+- **Http 메시지**
+  - HTTP API를 제공하는 경우에는 HTML이 아니라 데이터를 전달해야 하므로, HTTP 메세지 바디에 JSON같은 형식으로 데이터를 실어서 응답
+
+- **String을 반환하는 경우 -View or Http message**
+  - `@ResponseBody` 가 없으면 `response/hello`로 뷰 리졸버가 실행되어 뷰를 찾고, 렌더링 한다.
+  - `@ResponseBody` 가 있으면 뷰 리졸버를 실행하지 않고, Http 메시지 바디에 직접 `response/hello`라는 문자가 입력된다.
