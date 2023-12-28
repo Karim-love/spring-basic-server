@@ -266,3 +266,17 @@
 - **요청 파라미터 vs HTTP 메세지 바디**
   - 요청 파라미터를 조회하는 기능 : `@ModelAttribute`, `@RequestParam`
   - HTTP 메시지 바디를 직접 조회하는 기능 `@RequestBody`
+
+※ HTTP 요청 메시지 - JSON
+- requestBodyV3
+  - HttpMessageConvert 사용 -> MappingJackson2HttpMessageConverter
+    - content-type : application/json
+  - `@RequestBody` 생략 불가능
+    - 생략해 버리면 `@ModelAttribute`가 된다.
+- requestBodyV5
+  - `@RequestBody` 요청
+    - Json 요청 -> Http 메세지 컨버터 -> 객체
+  - `@ResponseBody` 응답
+    - 객체 -> Http 메시지 컨버터 -> Json 응답
+    - HttpMessageConvert 사용 -> MappingJackson2HttpMessageConverter
+      - Accept : application/json
