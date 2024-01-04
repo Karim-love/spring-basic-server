@@ -355,3 +355,23 @@
 - **ReturnValueHandler** - http 메시지 컨버터 사용
   - `HandlerMethodReturnValueHandler`를 줄여서 `returnValdueHandler`로 부른다.
   - 응답 값을 변환하고 처리
+
+--------------------------
+### 색션7. 웹 페이지 만들기
+
+※ PRF Post/Redirect/Get
+- **문제 상황**
+**새로고침은 내가 마지막에 했던 행위를 또 하는 것**
+따라서 상품 저장하고 상품 상세 부분에서 새로고침을 하면 
+```
+양식 다시 제출 확인
+```
+메세지가 뜨고 계속으로 누르면 상품을 또 저장하게 된다.
+
+※ RedirectAttribute
+- **문제 상황**
+`redirect:/basic/items/"+item.getId()`에서 변수 처럼 더하는 값이 문자열이면  
+URL 인코딩이 안되기 때문에 위험하다. 그래서 `RedirectAttribute` 를 사용
+
+- **RedirectAttribute**
+URL 인코딩도 해주고, `pathVarible`, 쿼리 파라미터까지 처리해 준다.
