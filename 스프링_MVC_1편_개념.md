@@ -195,3 +195,183 @@
 **@RequestParam 사용**
 - 스프링은 HTTP 요청 파라미터를 `@RequestParam`으로 받을 수 있다.
 - `@RequestParam("username")`은 `reqeust.getParameter("username")`와 거의 같은 코드라 생각하면 된다.
+
+--------------------------
+### 색션6. 스프링 MVC-기본 기능
+
+※ 매핑 정보
+`@RestController`
+- `@Controller`는 반환 값이 `String`이면 뷰 이름으로 인식된다. 그래서 **뷰를 찾고 뷰가 랜더링**된다.
+- `@RestController`는 반환 값으로 뷰를 찾는 것이 아니라, **Http 메세지 바디에 바로 입력**한다.
+
+※ 로그 사용 시 장점
+- 스레드 정보, 클래스 이름 같은 부가 정보를 함께 볼 수 있고, 출력 모양을 조정할 수 있다.
+- 로그 레벨에 따라 개발 서버에서는 모든 로그를 출력하고, 운영서버에서는 출력하지 않는 등 로그를 상황에 맞게 조절할 수 있다.
+- 시스템 아웃 콘솔에만 출력하는 것이 아니라, 파일이나 네트워크 등, 로그를 별도의 위치에 남길 수 있다. 특히 파일로 남길 때는 일별, 특정 용량에 따라 로그를 분할하는 것도 가능하다.
+- 성능도 일반 sout 보다 좋다.
+
+※ HTTP 요청 데이터 조회
+**GET - 쿼리 파라미터**
+- /url **?username=hello&age=20**
+- 메세지 바디 없이, URL의 쿼리 파라미터에 데이터를 포함해서 전달
+- ex ) 검색, 필터, 페이징등에서 많이 사용하는 방식
+- `HttpServletRequest`의 `request.getParameter()`를 사용
+
+**POST - HTML Form**
+- content-type:application/x-www-form-urlencoded
+- 메세지 바디에 쿼리 파라미터 형식으로 전달 username=hello&age=20
+- ex ) 회원 가입, 상품 주문, HTML Form 사용
+- `HttpServletRequest`의 `request.getParameter()`를 사용
+  
+**HTTP message body**에 데이터를 직접 담아서 요청
+- HTTP API에서 주로 사용, JSON, XML, TEXT
+- 데이터 형식은 주로 JSON 사용
+- POST, PUT, PATCH
+
+※ 바인딩 오류
+- `age=abc` 처럼 숫자가 들어가야할 곳에 문자를 넣으면 `BindException`이 발생한다.
+-  이런 오류는 검증 부분에서 세세히 다뤄야 한다.
+
+※ 생략 가능
+- `@ModelAttribute` 및 `@RequestParam` 생략 가능
+- 스프링은 해당 생략시 다음과 같은 규칙을 적용한다.
+  - `String`, `int`, `Integer` 같은 단순 타입 = `@RequestParam`
+  - 나머지 = `@ModelAttribute` ( argument resolver 로 지정해둔 타입 외 )
+
+※ HTTP message body 에 데이터를 직접 담아서 요청
+- HTTP API 에서 주로 사용, JSON, XML, TEXT
+- 데이터 형식은 주로 JSON
+- POST, PUT, PATCH
+- 요청 파라미터와 다르게, HTTP 메시지 바디를 통해 데이터가 직접 데이터가 넘어오는 경우는 `@RequestParam`, `@ModelAttribute`를 사용할 수 없다.
+- HTTP 메세지 바디의 데이터를 `InputStream`을 사용해서 직접 읽을 수 있다.
+
+※ 스프링 MVC는 다음 파라미터를 지원한다.
+- **HttpEntity** : Http header, body 정보를 편리하게 조회
+  - 메세지 바디 정보를 직접 조회
+  - 요청 파라미터를 조회하는 기능과 관계 없음 `@RequestParam`, `@ModelAttribute` => X
+- **HttpEntity** 응답에도 사용 가능
+  - 메세지 바디 정보 직접 반환
+  - 헤더 정보 포함 가능
+  - view 조회 X
+- **HttpEntity** 를 상속받은 다음 객체들도 같은 기능을 제공한다.
+  - **RequestEntity**
+    - HttpMethod, url 정보가 추가, 요청에서 사용
+  - **ResponseEntity**
+    - HTTP 상태 코드 설정 가능, 응답에서 사용
+    - `return new ResponseEntity<String>("Hello World", responseHeaders, HttpStatus.CREATED)`
+- **RequestBody**
+  - `@RequestBody`를 사용하면 HTTP 메세지 바디 정보를 편리하게 조회할 수 있다. 참고로 헤더 정보가 필요하다면 `HttpEntity`를 사용하거나 `@RequestHeader`를 사용하면 된다.
+- **ResponseBody**
+  - `@ResponseBody`를 사용하면 응답 결과를 HTTP 메시지 바디에 직접 담아서 전달할 수 있다.
+- **요청 파라미터 vs HTTP 메세지 바디**
+  - 요청 파라미터를 조회하는 기능 : `@ModelAttribute`, `@RequestParam`
+  - HTTP 메시지 바디를 직접 조회하는 기능 `@RequestBody`
+
+※ HTTP 요청 메시지 - JSON
+- requestBodyV3
+  - HttpMessageConvert 사용 -> MappingJackson2HttpMessageConverter
+    - content-type : application/json
+  - `@RequestBody` 생략 불가능
+    - 생략해 버리면 `@ModelAttribute`가 된다.
+- requestBodyV5
+  - `@RequestBody` 요청
+    - Json 요청 -> Http 메세지 컨버터 -> 객체
+  - `@ResponseBody` 응답
+    - 객체 -> Http 메시지 컨버터 -> Json 응답
+    - HttpMessageConvert 사용 -> MappingJackson2HttpMessageConverter
+      - Accept : application/json
+
+※ HTTP 응답 - 정적 리소스, 뷰 템플릿
+- **정적 리소스**
+  - 정적인 http, css, js을 제공할 때 사용
+- **뷰 템플릿**
+  - 웹 브라우저에 동적인 html을 제공할 때 사용
+- **Http 메시지**
+  - HTTP API를 제공하는 경우에는 HTML이 아니라 데이터를 전달해야 하므로, HTTP 메세지 바디에 JSON같은 형식으로 데이터를 실어서 응답
+
+- **String을 반환하는 경우 -View or Http message**
+  - `@ResponseBody` 가 없으면 `response/hello`로 뷰 리졸버가 실행되어 뷰를 찾고, 렌더링 한다.
+  - `@ResponseBody` 가 있으면 뷰 리졸버를 실행하지 않고, Http 메시지 바디에 직접 `response/hello`라는 문자가 입력된다.
+
+※ HTTP 메세지 컨버터
+- http accept 헤더와 서버의 컨트롤러 반환 타입 정보 들을 조합해 converter 선택
+- `canRead()`, `canWrite()` : 메시지 컨버터가 해당 클래스, 미디어 타입을 지원하는지 체크
+- `read()`, `write()` : 메시지 컨버터를 통해서 메시지를 읽고 쓰는 기능
+
+- 우선 순위
+- 0 = **ByteArrayHttpMessageConverter**
+  - `byte[]` 데이터를 처리
+  - class type : `byte[]`, 미디어 타입 : `*/*`
+  - request ex : `@RequestBody byte[] data`
+  - response ex : `@ResponseBody return byte[]` 쓰기 미디어 타입: `application/octet-stream`
+
+- 1 = **StringHttpMessageConverter**
+  - `String` 문자로 데이터를 처리
+  - class type : `String`, 미디어 타입 : `*/*`
+  - request ex : `@RequestBody String data`
+  - response ex : `@ResponseBody return "ok"` 쓰기 미디어 타입: `text/plain`
+    - ex) String 타입이고 미디어 타입이 application/json 일 시 해당 converter 작동
+
+- 2 = **MappingJackson2HttpMessageConverter**
+  - class type : 객체 또는 `HashMap`, 미디어 타입 : `application/json` 관련
+  - request ex : `@RequestBody HelloData data`
+  - response ex : `@ResponseBody return helloData` 쓰기 미디어 타입: `application/json`
+
+- 요청 데이터 읽기
+  - http 요청이 오고, 컨트롤러에서 `@RequestBody`, `HttpEntuty`파라미터를 사용
+  - 메시지 컨버터가 메시지를 읽을 수 있는지 확인하기 위해 `canRead()`를 호출
+    - 대상 클래스 타입을 지원하는가
+      - ex) `@RequestBody`의 대상 클래스(`byte[]`, `String`, 객체 )
+    - http 요청의 Content-Type 미디어 타입을 지원하는가
+      - ex) `text/plain`, `application/json`, `*/*`
+    - `canRead()`조건을 만족하면 `read()`를 호출해서 객체 생성하고 반환
+
+- 응답 데이터 생성
+  - 컨트롤러에서 `@ResponseBody`, `HttpEntuty`로 값이 반환
+  - 메시지 컨버터가 메시지를 쓸 수 있는지 확인하기 위해 `canWrite()`를 호출 
+    - 대상 클래스 타입을 지원하는가
+      - ex) return의 대상 클래스 (`byte[]`, `String`, 객체 )
+    - http 요청의 Accept 미디어 타입을 지원하는가 (더 정확히는 `@RequestMapping`의 `produces`)
+      - ex) `text/plain`, `application/json`, `*/*`
+    - `canWrite()`조건을 만족하면 `write()`를 호출해서 http 응답 메시지 바디에 데이터를 생성
+
+※ 요청 매핑 핸들러 어뎁터 구조
+- `@ReqeustMapping`을 처리하는 핸들러 어댑터 `RequestMappingHandlerAdapter`
+
+- **RequestMappingHandlerAdapter**
+  - Dispatcher Servlet -> RequestMapping -> `argument resolver` -> handler -> return value handler(컨트롤러의 반환 값을 변환)
+
+- **Argument resolver** - http 메시지 컨버터 사용
+  - 파라미터의 형식을 유연하게 처리하게 해줌
+  - 어노테이션 기반 컨트롤러를 처리하는 `RequestMappingHandlerAdaptor`는 바로 이 `Argument resolver`를 호출해서
+    컨트롤러가 필요로 하는 다양한 파라미터의 값(객체)을 생성한다.
+    그리고 이렇게 파라미터의 값이 모두 준비되면 컨트롤러를 호출하면서 값을 넘겨준다.
+
+- **동작 방식**
+  - `argument resolver`의 `supportsParamter()`를 호출해서 해당 파라미터를 지원하는지 체크
+  - 지원하면 `esolveArgument()`를 호출해서 실제 객체를 생성
+  - 생성된 객체가 턴트롤러 호출 시 넘어간다.
+
+- **ReturnValueHandler** - http 메시지 컨버터 사용
+  - `HandlerMethodReturnValueHandler`를 줄여서 `returnValdueHandler`로 부른다.
+  - 응답 값을 변환하고 처리
+
+--------------------------
+### 색션7. 웹 페이지 만들기
+
+※ PRF Post/Redirect/Get
+- **문제 상황**
+**새로고침은 내가 마지막에 했던 행위를 또 하는 것**
+따라서 상품 저장하고 상품 상세 부분에서 새로고침을 하면 
+```
+양식 다시 제출 확인
+```
+메세지가 뜨고 계속으로 누르면 상품을 또 저장하게 된다.
+
+※ RedirectAttribute
+- **문제 상황**
+`redirect:/basic/items/"+item.getId()`에서 변수 처럼 더하는 값이 문자열이면  
+URL 인코딩이 안되기 때문에 위험하다. 그래서 `RedirectAttribute` 를 사용
+
+- **RedirectAttribute**
+URL 인코딩도 해주고, `pathVarible`, 쿼리 파라미터까지 처리해 준다.
