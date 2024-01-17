@@ -62,6 +62,28 @@
             </div>
         </div>
 
+        <div>
+            <div>상품 종류</div>
+            <!--${itemTypes} = enum -->
+            <!--*{itemType} = Item.itemType-->
+            <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('itemType')}"
+                       th:text="${type.getDescription()}" class="form-check-label">BOOK</label>
+            </div>
+        </div>
+
+        <div>
+            <div>배송 방식</div>
+            <select th:field="*{deliveryCode}" class="form-select">
+                <option value="">==배송 방식 선택==</option>
+                <option th:each="deliveryCodes : ${deliveryCodes}" th:value="${deliveryCodes.code}"
+                        th:text="${deliveryCodes.displayName}">FAST</option>
+            </select>
+        </div>
+
+        <hr class="my-4"/>
+
         <div class="row">
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>

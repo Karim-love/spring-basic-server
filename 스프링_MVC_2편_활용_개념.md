@@ -173,4 +173,13 @@
 이렇게 하면 해당 컨트롤러를 요청할 때 `regions`에서 반환한 값이 자동으로 모델(model)에 담긴다.  
 근데 호출 시 마다 호출됨... 성능 문제.. 바뀌지 않으면 static으로 빼자..
 
+※ 라디오 버튼
+
+타임리프에서 enum 직접 접근 ( 비 추천 )
+```html
+<div th:each="type : ${T(hello.itemservice.domain.item.ItemType).values()}"
+```
+`${T(hello.itemservice.domain.item.ItemType).values()}` 스프링EL 문법으로 enum을 직접 사용할 수 있다.  
+`values()`를 호출하면 해당 enum의 모든 정보가 배열로 반환한다.
+
 </details>
