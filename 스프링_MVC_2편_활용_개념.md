@@ -183,3 +183,36 @@
 `values()`를 호출하면 해당 enum의 모든 정보가 배열로 반환한다.
 
 </details>
+
+### 색션3
+
+<details>
+<summary>메시지, 국제화</summary>
+
+※ 메시지, 국제화 소개
+
+**메시지**
+한 설정 파일로 메시지들을 관리 할 수 있다.
+- messages.properties
+  - `item.itemName = 상품명`
+- addForm.html
+  - `<label for="itemName" th:text="#{item.itemName}">상품명</label>`
+- 파라미터 사용법
+  - `hello.name = 안녕 {0}`
+  - `<p th:text="#{hello.name(${item.itemName})}"></p>`
+
+**국제화**
+설정 파일들을 나라별로 관리한다.
+- messages_ko.properties, messages_en.properties
+- 일반 적으로 HTTP `accept-language` 헤더 값 사용
+- 스프링은 기본적인 메시지와 국제화 기능을 모두 제공, 타임리프도 스프링이 제공하는 메시지와 국제화 기능을 편리하게 통합해서 제공
+
+**LocaleResolver**
+스프링은 `Locale`선택 방식을 변경할 수 있도록 `LocaleResolver`라는 인터페이스를 제공  
+스프링 부트는 기본으로 `accept-language`를 활용하는 `AcceptHeaderLocalResolver`를 사용
+
+**LocaleResolver 변경**
+만약 `Locale` 선택 방식을 변경하면 `LocaleResolver`의 구현체를 변경해서 쿠키나 세션 기반의 `Locale` 선택 기능을 사용할 수 있다.
+
+
+</details>
