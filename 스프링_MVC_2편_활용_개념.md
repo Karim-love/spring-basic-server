@@ -214,5 +214,14 @@
 **LocaleResolver 변경**
 만약 `Locale` 선택 방식을 변경하면 `LocaleResolver`의 구현체를 변경해서 쿠키나 세션 기반의 `Locale` 선택 기능을 사용할 수 있다.
 
+</details>
+
+
+### 색션4
+
+<details>
+<summary>검증1 - Validation</summary>
+
+※
 
 </details>
