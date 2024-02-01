@@ -4,6 +4,7 @@ import com.karim.springmetric.metric.gauge.CustomMetricMemoryUseService;
 import io.micrometer.core.instrument.FunctionTimer;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class CustomMetricTimerService {
 
     @Autowired
     public CustomMetricTimerService(MeterRegistry meterRegistry) {
-        // 게이지 생성
+
         this.functionTimer = FunctionTimer.builder("custom.timer", this,
                         CustomMetricTimerService::getCount,
                         CustomMetricTimerService::getTotalTime,
