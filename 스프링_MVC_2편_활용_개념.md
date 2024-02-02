@@ -225,6 +225,60 @@
 ※ 검증 직접 처리 - 소개
 **상품 저장 검증 실패**
 - 검증에 실패한 경우 다시 상품 등록 폼과 전달 받은 데이터를 보여주고, 어떤 값을 잘못 입력했는지 친절하게 알려줘야 한다.
-- 
+
+※ BindingResult1
+- 스프링이 제공하는 검증 오류 처리
+- 필드 오류
+  - `bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수 입니다."));`
+  - 필드에 오류가 있으면 FieldError 객체를 생성해서 bindingResult에 담아두면 된다.
+  - `item` : @ModelAttribute 이름
+  - `itemName` : 오류가 발생한 필드 이름
+  - `defaultMessage ` : 오류 기본 메시지
+- 글로벌 오류
+  - `bindingResult.addError(new ObjectError("item", "가격 * 수량의 합은 10,000원 이상이여햐 합니다. 현재 값 = " + resultPrice));`
+  - ObjectError 객체를 생성해서 bindingResult에 담아두면 된다.
+  - `item` : @ModelAttribute 이름
+  - `defaultMessage ` : 오류 기본 메시지
+- 타임리프 스프링 검증 오류 통합 기능
+  - `#fields` : `BindingResult`가 제공하는 검증 오류에 접근할 수 있다.
+  - `th:errors` : 해당 필드에 오류가 있는 경우에 태그를 출력한다.
+  - `th:errorclass` : `th:field`에서 지정한 필드에 오류가 있으면 `class`정보를 추가한다.
+
+※ BindingResult2
+- 스프링이 제공하는 검증 오류를 보관하는 객체
+- 검증 오류가 발생하면 여기에 보관하면 된다
+- `BindingResult`가 있으면 `@ModleAttribute`에 데이터 바인딩 시 오류가 발생해도 컨트롤러가 호출
+  - ex) `@ModleAttribute` 에 바인딩 시 타입 오류가 발생하면?
+    - `BindingResult`가 없으면 -> 400 에러 발생 및 우류 페이지 이동
+    - `BindingResult`가 있으면 -> 오류 정보 `FieldError`를 `BindingResult` 에 감아서 컨트롤러 정상 호출
+
+BindingResult에 검증 오류 하는 3가지 방법
+1. `@ModleAttribute`의 객체에 타입 오류 등으로 바인딩이 실패하는 경우 스프링이 `FieldError`생성해서 `BindingResult`에 넣어준다.
+2. 개발자가 직접 넣어준다.
+3. `Validator`사용
+
+**주의**
+- BindingResult는 검증할 대상 바로 다음에 와야한다. 순서가 중요하다.
+- BindingResult는 Model에 자동으로 포함된다.
+
+타임리프의 사용자 입력 값 유지
+- `th:field="*{price}"`
+- 타임리프의 `th:field`는 정상 상황에는 모델 객체의 값을 사용하지만, 오류가 발생하면 `FieldError`에서 보관한 값을 사용해서 값을 출력한다.
+
+※ 오류 코드와 메시지 처리
+
+**FieldError 생성자**
+1. `public FieldError(String objectName, String field, String defaultMessage)`
+2. `public FieldError(String objectName, String field, @Nullable Object rejectedValue, boolean bindingFailure, @Nullable String[] codes, @Nullable Object[] arguments, @Nullable String defaultMessage)`
+- objectName : 오류가 발생한 객체 이름
+- field : 오류 필드
+- rejectedValue : 사용자가 입력한 값 (거절된 값)
+- bindingFailure : 타입 오류 같은 바인딩 실패인지, 검증 실패인지 구분 값
+- codes : 메시지 코드
+- arguments : 메시지에서 사용하는 인자
+- defaultMessage : 기본 오류 메시지
+
+`rejectValue()`, `reject()`
+- BindingResult 가 제공하는 두 메소드를 사용하면, `fieldError`, `ObjectError`를 직업 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있다.
 
 </details>
