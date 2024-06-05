@@ -281,4 +281,9 @@ BindingResult에 검증 오류 하는 3가지 방법
 `rejectValue()`, `reject()`
 - BindingResult 가 제공하는 두 메소드를 사용하면, `fieldError`, `ObjectError`를 직업 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있다.
 
+**MessageCodesResolver**
+- 검증 오류 코드로 메시지 코드들을 생성
+- `MessageCodesResolver`인터페이스
+- 주로 `ObjectError`, `FieldError` 와 함께 사용
+
 </details>
