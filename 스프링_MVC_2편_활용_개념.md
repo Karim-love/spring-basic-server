@@ -293,3 +293,23 @@ BindingResult에 검증 오류 하는 3가지 방법
 4. `th:errors`에서 에러 코드 메세지를 순서대로 찾고 노출
 
 </details>
+
+
+### 색션5
+<details>
+<summary>검증2 - Bean Validation</summary>
+
+**검증 순서**
+1. `@ModelAttribute` 각각 필드의 타입 변환 시도
+   - 성공
+     - 다음
+   - 실패
+     - `typeMismatch` 로 `FiledErorr` 추가
+2. Vaildator 적용
+
+**BeanVaildation 메세지 찾는 순서**
+1. 생성된 메세지 순서대로 `messageSource`에서 메세지 찾음
+2. 어노테이션 `message`속서 사용 -> `@NotBlank(message = "공백 X" )`
+3. 라이브러리가 제공하는 default 값 사용
+
+</details>
