@@ -10,6 +10,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +27,13 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidation itemValidation;
+
+    // controller 가 호출 될 때마다 해당 메소드를 실행해서 검증한다.
+    @InitBinder
+    public void init(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(itemValidation);
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -156,10 +166,19 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     // @ModelAttribute Item item
     // => model.addAttribute("item", item); 자동
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
+
+        // BindingError는 바로 리턴
+        if (bindingResult.hasErrors()) {
+            log.error("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        // StringUtils -> ValidationUtils
+        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult,"itemName", "required" );
 
         //검증 로직
         if (!StringUtils.hasText(item.getItemName())) {
@@ -181,6 +200,45 @@ public class ValidationItemControllerV2 {
         }
 
         //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.error("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+//    @PostMapping("/add")
+    // @ModelAttribute Item item
+    // => model.addAttribute("item", item); 자동
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
+
+        // BindingError는 바로 리턴
+        if (bindingResult.hasErrors()) {
+            log.error("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
+        itemValidation.validate(item, bindingResult);
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    // @ModelAttribute Item item
+    // => model.addAttribute("item", item); 자동
+    // @Validated 를 사용하면 item에 대하여 위에 선언한 webDataBinder를 사용하여 검증한다.
+    public String addItemV6(@Validated  @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
+
+        // BindingError는 바로 리턴
         if (bindingResult.hasErrors()) {
             log.error("errors = {}", bindingResult);
             return "validation/v2/addForm";

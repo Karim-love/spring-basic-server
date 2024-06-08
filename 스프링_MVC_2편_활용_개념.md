@@ -286,4 +286,10 @@ BindingResult에 검증 오류 하는 3가지 방법
 - `MessageCodesResolver`인터페이스
 - 주로 `ObjectError`, `FieldError` 와 함께 사용
 
+**VaildationUtils**
+1. `rejectValue()`를 호출
+2. `MessageCodeResolver`를 사용해서 요류 코드로 메세지 코드들을 생성
+3. `new FiledError()`를 생성하면서 에러 메세지 코드들을 보관
+4. `th:errors`에서 에러 코드 메세지를 순서대로 찾고 노출
+
 </details>
