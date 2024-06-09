@@ -296,8 +296,11 @@ BindingResult에 검증 오류 하는 3가지 방법
 
 
 ### 색션5
+
 <details>
 <summary>검증2 - Bean Validation</summary>
+
+[hibernate doc link](https://docs.jboss.org/hibernate/validator/8.0/reference/en-US/html_single/#section-builtin-constraints)
 
 **검증 순서**
 1. `@ModelAttribute` 각각 필드의 타입 변환 시도
@@ -311,5 +314,28 @@ BindingResult에 검증 오류 하는 3가지 방법
 1. 생성된 메세지 순서대로 `messageSource`에서 메세지 찾음
 2. 어노테이션 `message`속서 사용 -> `@NotBlank(message = "공백 X" )`
 3. 라이브러리가 제공하는 default 값 사용
+
+**BeanVaildation Groups**
+- 등록 시 검증할 기능과 수정 시 검증할 기능을 그룹으로 나누어 적용할 수 있다.
+
+참고
+  - `@Valid`는 groups 기능을 적용할 수 없다. 따라서 적용하려면 `@Validated`를 사용해야 한다.
+  - 실제로 잘 사용하지 않는데, 그 이유는 실무에서는 등록, 수정 폼 객체를 분리해서 사용한다.
+
+**Bean Validation - HTTP 메시지 컨버터**
+
+참고
+  - `@ModelAttribute`는 HTTP 요청 파라미터(URL 쿼리 스느링, POST Form)를 다룰 때 사용
+  - `@RequestBody`는 HTTP Body의 데이터를 객체로 변환할 때 사용. 주로 API JSON 요청을 다룰 때 사용
+
+**`@ModelAttribute` vs `@RequestBody`**
+Http 요청 파라미터를 처리하는 `@ModelAttribute` 는 각각의 필드 단위로 세밀하게 적용
+그래서 특정 필드에 타입이 맞지 않는 오류가 발생해도 나머지 필드는 정상 처리할 수 있다.
+`HttpMessageConverter`는 `@ModelAttribute` 와 다르게 각각의 필드 단위로 적용되는 것이 아니라, 전체 객체 단위로 적용
+따라서 메시지 컨버터의 작동이 성공해서 `Item`객체를 만들어야 `Vaild` `Validated` 가 적용
+
+- `@ModelAttribute`는 필드 단위로 정교하게 바인딩이 적용. 특정 필드가 바인딩 되지 않아도 나머지 필드는 정상 바인딩 되고 Validator를 사용한 검증도 적용 가능
+- `@RequestBody`는 HttpMessageConverter 단계에서 Json 데이터를 객체로 변경하지 못하면 이후 단계 자체가 진행되지 않고 예외가 발생. 컨트롤러도 호출되지 않고 Validator도 적용할 수 없음
+  - 해당 예외 처리는 작업 해야 한다,
 
 </details>
