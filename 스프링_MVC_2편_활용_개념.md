@@ -339,3 +339,11 @@ Http 요청 파라미터를 처리하는 `@ModelAttribute` 는 각각의 필드 
   - 해당 예외 처리는 작업 해야 한다,
 
 </details>
+
+### 색션6
+
+<details>
+<summary>로그인 처리1 - 쿠키, 세션</summary>
+
+
+</details>
