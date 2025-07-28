@@ -11,6 +11,7 @@
 - 스프링 MVC 2편 - 백엔드 웹 개발 활용 기술 by 김영한님
 - 백엔드 개발자에 의한, 백엔드 개발자들을 위한 프론트엔드 강의 - 기본편 by foo님
 - Spring Boot Metric 
+- Spring for Apache Kafka
 
 ### ✔️Pakage 별 정리
 📌 설명
@@ -29,6 +30,8 @@
  ┃  ┗ 📜스프링 MVC 1편
  ┣ 📂 jwt
  ┃  ┗ 📜Spring Boot JWT Tutorial
+ ┣ 📂 kafka_spring
+ ┃  ┗ 📜 [Spring for Apache Kafka](https://spring.io/projects/spring-kafka)
  ┣ 📂 servlet
  ┃  ┗ 📜스프링 MVC 1편
  ┣ 📂 shorten-url-service
