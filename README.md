@@ -37,6 +37,8 @@
  ┃  ┗ 📜 [grpc_docs](https://grpc.io/docs/)
  ┣ 📂 kafka_spring
  ┃  ┗ 📜 [Spring for Apache Kafka](https://spring.io/projects/spring-kafka)
+ ┣ 📂 redis_spring
+ ┃  ┗ 📜 [Spring for Redis](https://docs.spring.io/spring-data/redis/reference/redis.html)
  ┣ 📂 servlet
  ┃  ┗ 📜스프링 MVC 1편
  ┣ 📂 shorten-url-service
