@@ -1,8 +1,8 @@
 ## 📃 spring-basic-server
 
 **spring boot gradle version**  
-- Spring boot : 3.0.2  
-- JDK         : 17
+- Spring boot : 3.X  
+- JDK         : 21
 
 ### ❓ spring-basic-server
 - 스프링 핵심 원리 - 기본편 by 김영한님
@@ -12,6 +12,7 @@
 - 백엔드 개발자에 의한, 백엔드 개발자들을 위한 프론트엔드 강의 - 기본편 by foo님
 - Spring Boot Metric 
 - Spring for Apache Kafka
+- Spring for GRPC
 
 ### ✔️Pakage 별 정리
 📌 설명
@@ -30,6 +31,10 @@
  ┃  ┗ 📜스프링 MVC 1편
  ┣ 📂 jwt
  ┃  ┗ 📜Spring Boot JWT Tutorial
+ ┣ 📂 grpc_spring_client
+ ┃  ┗ 📜 [grpc_docs](https://grpc.io/docs/)
+ ┣ 📂 grpc_spring_server
+ ┃  ┗ 📜 [grpc_docs](https://grpc.io/docs/)
  ┣ 📂 kafka_spring
  ┃  ┗ 📜 [Spring for Apache Kafka](https://spring.io/projects/spring-kafka)
  ┣ 📂 servlet
