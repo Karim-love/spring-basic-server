@@ -1,0 +1,7 @@
+server:
+  port: 8081
+
+# src/main/resources/application.yml
+grpc:
+  server:
+    port: 9090 # gRPC ?? ?? ??
