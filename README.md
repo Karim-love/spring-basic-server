@@ -13,6 +13,7 @@
 - Spring Boot Metric 
 - Spring for Apache Kafka
 - Spring for GRPC
+- Spring for Redis
 
 ### ✔️Pakage 별 정리
 📌 설명
