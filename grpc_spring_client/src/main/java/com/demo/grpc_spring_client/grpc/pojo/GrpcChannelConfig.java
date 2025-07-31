@@ -5,6 +5,9 @@ import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author : sblim
  * @version : 1.0.0
@@ -30,12 +33,16 @@ public class GrpcChannelConfig {
      */
     @Bean(destroyMethod = "shutdown") // 스프링 컨테이너 종료 시 채널을 안전하게 종료하도록 destroyMethod 지정
     public ManagedChannel grpcManagedChannel() {
+
+        int maxRetries = 3; // 최대 재시도 횟수
+        long retryDelayMillis = 1000; // 재시도 간격 (1초)
+
         // ManagedChannelBuilder를 사용하여 서버 호스트와 포트로 채널을 구축합니다.
         return ManagedChannelBuilder.forAddress(
                         "127.0.0.1", // application.yml에서 가져온 호스트
                         9090)  // application.yml에서 가져온 포트
                 .usePlaintext() // 개발 환경에서는 보안 없이 평문 통신을 사용합니다.
-                                // 프로덕션 환경에서는 .useTransportSecurity()를 사용하여 TLS/SSL을 구성해야 합니다.
+                .intercept(new GrpcRetryInterceptor( maxRetries, retryDelayMillis )) // 여기에 인터셉터 적용!g
                 .build();
     }
 }
