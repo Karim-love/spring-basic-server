@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * @author : sblim
  * @version : 1.0.0
@@ -24,5 +26,11 @@ public class HelloController {
     @GetMapping("/hello")
     public String requestMessage(@RequestParam(name = "message" ) String message) {
         return grpcClientService.sendMessage(message);
+    }
+
+    @GetMapping("/helloAsync")
+    public CompletableFuture<String> requestMessageAsync(@RequestParam(name = "message" ) String message) {
+
+        return grpcClientService.sendMessageAsync(message);
     }
 }
