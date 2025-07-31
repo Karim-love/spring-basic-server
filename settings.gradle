@@ -1,1 +1,3 @@
 rootProject.name = 'spring-basic-server'
+include 'grpc_client'
+
